@@ -52,69 +52,72 @@ class NumNames
       # No tens or hundreds
       if num_sep[c].length == 1
         # Applying the name of the number to a new array
-        num_names[c] = @lookup[num_sep[c][-1]]
+####################################
+## raise num_sep.inspect
+####################################
+        num_names[1] = @lookup[num_sep[c][num_sep[c].length -1]]
       # No hundreds
       elsif num_sep[c].length == 2
         # If it's a 'teen' (or 10)
-        if num_sep[c][num_sep[c].size-2] == 1
-          num_names[c] = @lookup[num_sep[c][-2]] + @lookup[num_sep[c][-2]]
+        if num_sep[c][num_sep[c].length-2] == 1
+          num_names[1] = @lookup[num_sep[c][num_sep[c].length -2]] + @lookup[num_sep[c][num_sep[c].length -2]]
         # Not a 'teen' i.e. 20, 21 etc
         else
           # Ends in 0 i.e. 20, 30, 40 etc
-          if num_sep[c][num_sep[c].size-1] == 0
-            num_names[c] = @lookup[num_sep[c][-2]]
+          if num_sep[c][num_sep[c].length-1] == 0
+            num_names[1] = @lookup[num_sep[c][num_sep[c].length -2]]
           # Not a 0
           else
-            num_names[c] = @lookup[num_sep[c][-2]] + " " + @lookup[num_sep[c][-1]]
+            num_names[1] = @lookup[num_sep[c][num_sep[c].length -2]] + " " + @lookup[num_sep[c][num_sep[c].length -1]]
           end
         end
       # Units tens and hundreds
       else
         # Hundreds is 0
-        if num_sep[c][num_sep[c].size-3] == "0"
+        if num_sep[c][num_sep[c].length-3] == "0"
           # If it's a 'teen' (or 10)
-          if num_sep[c][num_sep[c].size-2] == 1
-            num_names[c] = digit_names(num_sep[c][num_sep[c].size-2] + num_sep[c][num_sep[c].size-1])
+          if num_sep[c][num_sep[c].length-2] == 1
+            num_names[1] = digit_names(num_sep[c][num_sep[c].length-2] + num_sep[c][num_sep[c].length-1])
           # Not a 'teen' i.e. 20, 21 etc
           else
             # Ends in 0 i.e. 20, 30, 40 etc
-            if num_sep[c][num_sep[c].size-1] == 0
-              num_names[c] = @lookup[num_sep[c][-2]]
+            if num_sep[c][num_sep[c].length-1] == 0
+              num_names[1] = @lookup[ num_sep[c] [num_sep[c].length -2] ]
             # Not a 0
             else
-              num_names[c] = @lookup[num_sep[c][-2]] + " " + @lookup[num_sep[c][-1]]
+              num_names[1] = @lookup[num_sep[c][num_sep[c].length -2]] + " " + @lookup[num_sep[c][num_sep[c].length -1]]
             end
           end
         # Hundreds has a value
         else
           # Tens and units are 0
-          if num_sep[c][num_sep[c].size-2] == 0 and num_sep[c][num_sep[c].size-1] == 0
-            num_names[c] = @lookup[num_sep[c][-3]] + " hundred"
+          if num_sep[c][num_sep[c].length-2] == 0 and num_sep[c][num_sep[c].length-1] == 0
+            num_names[1] = @lookup[num_sep[c][num_sep[c].length -3]] + " hundred"
           # Tens or units have value
           else
-            a = @lookup[num_sep[c][-3]] + " hundred"
+            a = @lookup[num_sep[c][num_sep[c].length -3]] + " hundred"
             # If it's a 'teen' (or 10)
-            if num_sep[c][num_sep[c].size-2] == 1
-              b = digit_names(num_sep[c][num_sep[c].size-2] + num_sep[c][num_sep[c].size-1])
+            if num_sep[c][num_sep[c].length-2] == 1
+              b = digit_names(num_sep[c][num_sep[c].length-2] + num_sep[c][num_sep[c].length-1])
             # Not a 'teen' i.e. 20, 21 etc
             else
               # Ends in 0 i.e. 20, 30, 40 etc
-              if num_sep[c][num_sep[c].size-1] == 0
-                b = @lookup[num_sep[c][-2]]
+              if num_sep[c][num_sep[c].length-1] == 0
+                b = @lookup[num_sep[c][num_sep[c].length -2]]
               # Not a 0
               else
-                b = @lookup[num_sep[c][-2]] + " " + @lookup[num_sep[c][-2]]
+                b = @lookup[num_sep[c][num_sep[c].length -2]] + " " + @lookup[num_sep[c][num_sep[c].length -2]]
               end
             end
-            num_names[c] = a + b
+            num_names[1] = a + b
           end
         end
       end
       # The suffix (thousand, million etc)
       case c
-        when -2 then num_names[c] += " thousand"
-        when -3 then num_names[c] += " million"
-        when -4 then num_names[c] += " billion"
+        when -2 then num_names[1] += " thousand"
+        when -3 then num_names[1] += " million"
+        when -4 then num_names[1] += " billion"
       end
       c -= 1
     }

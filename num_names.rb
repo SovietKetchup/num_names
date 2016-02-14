@@ -6,25 +6,24 @@ class NumNames
   attr_reader :num
 
   def initialize num
-    @num = num.to_s.scan(/./)
+    # Convert num into an array of strings e.g. 123 => ["1", "2", "3"] and put into groups of three
+    @num = num.to_s.scan(/./).reverse.in_groups_of(3).map{ |g| g.compact.reverse }.reverse
   end
 
-  def to_word
-
-  end
+  # Convert the number into
+  def to_word; end
 
   private
-  # Split the number into each part
-  def split num
-    num_sep = num.reverse.in_groups_of(3).map{ |g| g.compact.reverse }.reverse
+  # Sections of 3 -- hundreds, tens, units
+  def hun_ten_uni num_sep
+    c = -1
+    num_sep.length.times {
+      if num_sep[c][1] == "1"
+
+      end
+      c -= 1
+    }
   end
-
-  # Sections of 3
-  def hun_ten_uni; end
-
-  # Suffixes (thousand, million etc.)
-  def suffixes; end
-
 end
 
 # http://api.rubyonrails.org/classes/Array.html#method-i-in_groups_of

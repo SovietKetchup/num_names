@@ -8,6 +8,34 @@ class NumNames
   def initialize num
     # Convert num into an array of strings e.g. 123 => ["1", "2", "3"] and put into groups of three
     @num = num.to_s.scan(/./).reverse.in_groups_of(3).map{ |g| g.compact.reverse }.reverse
+    @lookup =  { "1" => "one",
+      "2" => "two",
+      "3" => "three",
+      "4" => "four",
+      "5" => "five",
+      "6" => "six",
+      "7" => "seven",
+      "8" => "eight",
+      "9" => "nine",
+      "10" => "ten",
+      "11" => "eleven",
+      "12" => "twelve",
+      "13" => "thirteen",
+      "14" => "fourteen",
+      "15" => "fifteen",
+      "16" => "sixteen",
+      "17" => "seventeen",
+      "18" => "eighteen",
+      "19" => "nineteen",
+      "20" => "twenty",
+      "30" => "thirty",
+      "40" => "fourty",
+      "50" => "fifty",
+      "60" => "sixty",
+      "70" => "seventy",
+      "80" => "eighty",
+      "90" => "ninety"
+    }
   end
 
   # Convert the number into
@@ -24,58 +52,58 @@ class NumNames
       # No tens or hundreds
       if num_sep[c].length == 1
         # Applying the name of the number to a new array
-        num_names[c] = digit_names(num_sep[c][-1])
+        num_names[c] = @lookup[num_sep[c][-1]]
       # No hundreds
       elsif num_sep[c].length == 2
         # If it's a 'teen' (or 10)
-        if num_sep[c][-2] == 1
-          num_names[c] = digit_names(num_sep[c][-2] + num_sep[c][-1])
+        if num_sep[c][num_sep[c].size-2] == 1
+          num_names[c] = @lookup[num_sep[c][-2]] + @lookup[num_sep[c][-2]]
         # Not a 'teen' i.e. 20, 21 etc
         else
           # Ends in 0 i.e. 20, 30, 40 etc
-          if num_sep[c][-1] == 0
-            num_names[c] = digit_names(num_sep[c][-2])
+          if num_sep[c][num_sep[c].size-1] == 0
+            num_names[c] = @lookup[num_sep[c][-2]]
           # Not a 0
           else
-            num_names[c] = digit_names(num_sep[c][-2]) + " " + digit_names(num_sep[c][-1])
+            num_names[c] = @lookup[num_sep[c][-2]] + " " + @lookup[num_sep[c][-1]]
           end
         end
       # Units tens and hundreds
       else
         # Hundreds is 0
-        if num_sep[c][-3] == "0"
+        if num_sep[c][num_sep[c].size-3] == "0"
           # If it's a 'teen' (or 10)
-          if num_sep[c][-2] == 1
-            num_names[c] = digit_names(num_sep[c][-2] + num_sep[c][-1])
+          if num_sep[c][num_sep[c].size-2] == 1
+            num_names[c] = digit_names(num_sep[c][num_sep[c].size-2] + num_sep[c][num_sep[c].size-1])
           # Not a 'teen' i.e. 20, 21 etc
           else
             # Ends in 0 i.e. 20, 30, 40 etc
-            if num_sep[c][-1] == 0
-              num_names[c] = digit_names(num_sep[c][-2])
+            if num_sep[c][num_sep[c].size-1] == 0
+              num_names[c] = @lookup[num_sep[c][-2]]
             # Not a 0
             else
-              num_names[c] = digit_names(num_sep[c][-2]) + " " + digit_names(num_sep[c][-1])
+              num_names[c] = @lookup[num_sep[c][-2]] + " " + @lookup[num_sep[c][-1]]
             end
           end
         # Hundreds has a value
         else
           # Tens and units are 0
-          if num_sep[c][-2] == 0 and num_sep[c][-1] == 0
-            num_names[c] = digit_names(num_sep[c][-3]) + " hundred"
+          if num_sep[c][num_sep[c].size-2] == 0 and num_sep[c][num_sep[c].size-1] == 0
+            num_names[c] = @lookup[num_sep[c][-3]] + " hundred"
           # Tens or units have value
           else
-            a = digit_names(num_sep[c][-3]) + " hundred"
+            a = @lookup[num_sep[c][-3]] + " hundred"
             # If it's a 'teen' (or 10)
-            if num_sep[c][-2] == 1
-              b = digit_names(num_sep[c][-2] + num_sep[c][-1])
+            if num_sep[c][num_sep[c].size-2] == 1
+              b = digit_names(num_sep[c][num_sep[c].size-2] + num_sep[c][num_sep[c].size-1])
             # Not a 'teen' i.e. 20, 21 etc
             else
               # Ends in 0 i.e. 20, 30, 40 etc
-              if num_sep[c][-1] == 0
-                b = digit_names(num_sep[c][-2])
+              if num_sep[c][num_sep[c].size-1] == 0
+                b = @lookup[num_sep[c][-2]]
               # Not a 0
               else
-                b = digit_names(num_sep[c][-2]) + " " + digit_names(num_sep[c][-1])
+                b = @lookup[num_sep[c][-2]] + " " + @lookup[num_sep[c][-2]]
               end
             end
             num_names[c] = a + b
@@ -93,41 +121,6 @@ class NumNames
     num_names
   end
 end
-
-  # Takes digits (and >10 but sshh) and retuerns the word value
-  def digit_names dig
-    case dig
-      when "1" then val = "one"
-      when "2" then val = "two"
-      when "3" then val = "three"
-      when "4" then val = "four"
-      when "5" then val = "five"
-      when "6" then val = "six"
-      when "7" then val = "seven"
-      when "8" then val = "eight"
-      when "9" then val = "nine"
-      when "10" then val = "ten"
-      when "11" then val = "eleven"
-      when "12" then val = "twelve"
-      when "13" then val = "thirteen"
-      when "14" then val = "fourteen"
-      when "15" then val = "fifteen"
-      when "16" then val = "sixteen"
-      when "17" then val = "seventeen"
-      when "18" then val = "eighteen"
-      when "19" then val = "nineteen"
-      when "20" then val = "twenty"
-      when "30" then val = "thirty"
-      when "40" then val = "fourty"
-      when "50" then val = "fifty"
-      when "60" then val = "sixty"
-      when "70" then val = "seventy"
-      when "80" then val = "eighty"
-      when "90" then val = "ninety"
-    end
-    val
-  end
-
 
 # http://api.rubyonrails.org/classes/Array.html#method-i-in_groups_of
 class Array

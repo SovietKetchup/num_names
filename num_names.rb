@@ -10,25 +10,86 @@ class NumNames
     @num = num.to_s.scan(/./).reverse.in_groups_of(3).map{ |g| g.compact.reverse }.reverse
   end
 
+  protected
   # Convert the number into
-  def to_word; end
+  def to_word
+    puts hun_ten_uni
+  end
 
   private
   # Sections of 3 -- hundreds, tens, units
   def hun_ten_uni num_sep
     c = -1
     num_sep.length.times {
+      # No tens or hundreds
       if num_sep[c].length == 1
-        ## No tens or hundreds
+        # Applying the name of the number to a new array
+        num_names[c] = digit_names(num_sep[c][-1])
+      # No hundreds
       elsif num_sep[c].length == 2
-        ## No hundreds
+        # If it's a 'teen' (or 10)
+        if num_sep[c][-2] == 1
+          num_names[c] = digit_names(num_sep[c][-2] + num_sep[c][-1])
+        # Not a 'teen' i.e. 20, 21 etc
+        else
+          # Ends in 0 i.e. 20, 30, 40 etc
+          if num_sep[c][-1] == 0
+            num_names[c] = digit_names(num_sep[c][-2])
+          # Not a 0
+          else
+            num_names[c] = digit_names(num_sep[c][-2]) + " " + digit_names(num_sep[c][-1])
+          end
+        end
+      # Units tens and hundreds
       else
-        ## Units tens and hundreds
+        # Hundreds is 0
+        if num_sep[c][-3] == "0"
+          # If it's a 'teen' (or 10)
+          if num_sep[c][-2] == 1
+            num_names[c] = digit_names(num_sep[c][-2] + num_sep[c][-1])
+          # Not a 'teen' i.e. 20, 21 etc
+          else
+            # Ends in 0 i.e. 20, 30, 40 etc
+            if num_sep[c][-1] == 0
+              num_names[c] = digit_names(num_sep[c][-2])
+            # Not a 0
+            else
+              num_names[c] = digit_names(num_sep[c][-2]) + " " + digit_names(num_sep[c][-1])
+            end
+          end
+        # Hundreds has a value
+        else
+          # Tens and units are 0
+          if num_sep[c][-2] == 0 and num_sep[c][-1] == 0
+            num_names[c] = digit_names(num_sep[c][-3]) + " hundred"
+          # Tens or units have value
+          else
+            a = digit_names(num_sep[c][-3]) + " hundred"
+            # If it's a 'teen' (or 10)
+            if num_sep[c][-2] == 1
+              b = digit_names(num_sep[c][-2] + num_sep[c][-1])
+            # Not a 'teen' i.e. 20, 21 etc
+            else
+              # Ends in 0 i.e. 20, 30, 40 etc
+              if num_sep[c][-1] == 0
+                b = digit_names(num_sep[c][-2])
+              # Not a 0
+              else
+                b = digit_names(num_sep[c][-2]) + " " + digit_names(num_sep[c][-1])
+              end
+            end
+            num_names[c] = a + b
+          end
+        end
       end
+      # The suffix (thousand, million etc)
+      case c
+      when -2 then num_names[c] += " thousand"
+      when -3 then num_names[c] += " million"
+      when -4 then num_names[c] += " billion"
       c -= 1
     }
-
-
+    num_names
   end
 
   # Takes digits (and >10 but sshh) and retuerns the word value

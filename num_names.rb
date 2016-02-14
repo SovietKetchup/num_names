@@ -18,11 +18,51 @@ class NumNames
   def hun_ten_uni num_sep
     c = -1
     num_sep.length.times {
-      if num_sep[c][1] == "1"
-
+      if num_sep[c].length == 1
+        ## No tens or hundreds
+      elsif num_sep[c].length == 2
+        ## No hundreds
+      else
+        ## Units tens and hundreds
       end
       c -= 1
     }
+
+
+  end
+
+  # Takes digits (and >10 but sshh) and retuerns the word value
+  def digit_names dig
+    case dig
+    when "1" then val = "one"
+    when "2" then val = "two"
+    when "3" then val = "three"
+    when "4" then val = "four"
+    when "5" then val = "five"
+    when "6" then val = "six"
+    when "7" then val = "seven"
+    when "8" then val = "eight"
+    when "9" then val = "nine"
+    when "10" then val = "ten"
+    when "11" then val = "eleven"
+    when "12" then val = "twelve"
+    when "13" then val = "thirteen"
+    when "14" then val = "fourteen"
+    when "15" then val = "fifteen"
+    when "16" then val = "sixteen"
+    when "17" then val = "seventeen"
+    when "18" then val = "eighteen"
+    when "19" then val = "nineteen"
+    when "20" then val = "twenty"
+    when "30" then val = "thirty"
+    when "40" then val = "fourty"
+    when "50" then val = "fifty"
+    when "60" then val = "sixty"
+    when "70" then val = "seventy"
+    when "80" then val = "eighty"
+    when "90" then val = "ninety"
+    end
+    val
   end
 end
 

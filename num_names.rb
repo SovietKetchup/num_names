@@ -40,20 +40,28 @@ class NumNames
 
   # Convert the number into
   def to_word
-##    pos = -1
-##    num_words = " "
-##    @num.length.times {
-##        num_words += compile @num[pos]
-##      pos -= 1
-##    }
-##    num_words
+    pos = -1
+    num_words = " "
+    @num.length.times {
+      ######################
+        num_words += compile @num[pos]
+      pos -= 1
+    }
+    num_words
   end
 
   private
   # Sections of 3 -- units, tens, hundreds
   def compile num_section
-    u = units num_section
-    t = tens num_section
+    # Only units
+    if num_section.length == 1
+      u = units num_section
+    elsif num_section.length == 2
+      u = units num_section; t = tens num_section
+    else
+      u = units num_section; t = tens num_section; h = hundreds num_section
+    end
+    h.to_s + t.to_s + u.to_s
   end
 
   # Names for numbers in the units
@@ -85,8 +93,6 @@ class NumNames
       end
     end
   end
-
-
 end
 
 # http://api.rubyonrails.org/classes/Array.html#method-i-in_groups_of

@@ -44,9 +44,18 @@ class NumNames
     num_words = " "
     @num.length.times {
       case pos
-        when -1 then num_words = compile(@num[pos]) + num_words
-        when -2 then num_words = compile(@num[pos]) + " thousand, " + num_words
-        when -3 then num_words = compile(@num[pos]) + " million, " + num_words
+        when -1 then num_words = compile_i(@num[pos]) + num_words
+        when -2 then num_words = compile_i(@num[pos]) + " thousand, " + num_words
+        when -3 then num_words = compile_i(@num[pos]) + " million, " + num_words
+        when -4 then num_words = compile_i(@num[pos]) + " billion, " + num_words
+        when -5 then num_words = compile_i(@num[pos]) + " trillion, " + num_words
+        when -6 then num_words = compile_i(@num[pos]) + " quadrillion, " + num_words
+        when -7 then num_words = compile_i(@num[pos]) + " quintillion, " + num_words
+        when -8 then num_words = compile_i(@num[pos]) + " sextillion, " + num_words
+        when -9 then num_words = compile_i(@num[pos]) + " septillion, " + num_words
+        when -10 then num_words = compile_i(@num[pos]) + " octillion, " + num_words
+        when -11 then num_words = compile_i(@num[pos]) + " nonillion, " + num_words
+        when -12 then num_words = compile_i(@num[pos]) + " decillion, " + num_words
       end
       pos -= 1
     }
@@ -54,8 +63,8 @@ class NumNames
   end
 
   private
-  # Sections of 3 -- units, tens, hundreds
-  def compile num_section
+  # Compile the Integer Sections of 3 -- units, tens, hundreds
+  def compile_i num_section
     # Only units
     if num_section.length == 1
       u = units num_section
@@ -125,5 +134,5 @@ class Array
   end
 end
 
-x = NumNames.new 113
+x = NumNames.new 123_456_789_012_345_678
 print x.to_word

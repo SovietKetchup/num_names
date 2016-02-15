@@ -50,26 +50,35 @@ class NumNames
 
   # Convert the number into
   def to_word
+    int_words = " "
+    dec_words = "point "
     pos = -1
-    num_words = " "
     @int.length.times {
       case pos
-        when -1 then num_words = compile_i(@num[pos]) + num_words
-        when -2 then num_words = compile_i(@num[pos]) + " thousand, " + num_words
-        when -3 then num_words = compile_i(@num[pos]) + " million, " + num_words
-        when -4 then num_words = compile_i(@num[pos]) + " billion, " + num_words
-        when -5 then num_words = compile_i(@num[pos]) + " trillion, " + num_words
-        when -6 then num_words = compile_i(@num[pos]) + " quadrillion, " + num_words
-        when -7 then num_words = compile_i(@num[pos]) + " quintillion, " + num_words
-        when -8 then num_words = compile_i(@num[pos]) + " sextillion, " + num_words
-        when -9 then num_words = compile_i(@num[pos]) + " septillion, " + num_words
-        when -10 then num_words = compile_i(@num[pos]) + " octillion, " + num_words
-        when -11 then num_words = compile_i(@num[pos]) + " nonillion, " + num_words
-        when -12 then num_words = compile_i(@num[pos]) + " decillion, " + num_words
+        when -1 then int_words = compile_i(@int[pos]) + int_words
+        when -2 then int_words = compile_i(@int[pos]) + " thousand, " + int_words
+        when -3 then int_words = compile_i(@int[pos]) + " million, " + int_words
+        when -4 then int_words = compile_i(@int[pos]) + " billion, " + int_words
+        when -5 then int_words = compile_i(@int[pos]) + " trillion, " + int_words
+        when -6 then int_words = compile_i(@int[pos]) + " quadrillion, " + int_words
+        when -7 then int_words = compile_i(@int[pos]) + " quintillion, " + int_words
+        when -8 then int_words = compile_i(@int[pos]) + " sextillion, " + int_words
+        when -9 then int_words = compile_i(@int[pos]) + " septillion, " + int_words
+        when -10 then int_words = compile_i(@int[pos]) + " octillion, " + int_words
+        when -11 then int_words = compile_i(@int[pos]) + " nonillion, " + int_words
+        when -12 then int_words = compile_i(@int[pos]) + " decillion, " + int_words
       end
       pos -= 1
     }
-    num_words
+    unless @dec == nil
+      @dec.each { |n|
+        dec_words += " " + @lookup[n]
+      }
+      val = int_words + dec_words
+    else
+      val = int_words
+    end
+    val
   end
 
   private
@@ -104,7 +113,7 @@ class NumNames
   def tens n
     # Not a teen
     unless n[-2] == "1" or n[-2] == nil
-      t = " " + @lookup[ n[-2] + "0" ]
+      t = @lookup[ n[-2] + "0" ]
     end
   end
 
@@ -118,7 +127,14 @@ class NumNames
       end
     end
   end
+
+  # Compile the Decimals
+  def compile_d decimals
+
+
+  end
 end
+
 
 # http://api.rubyonrails.org/classes/Array.html#method-i-in_groups_of
 class Array
@@ -144,5 +160,5 @@ class Array
   end
 end
 
-x = NumNames.new 123_456_789_012_345_678
+x = NumNames.new 100.256
 print x.to_word

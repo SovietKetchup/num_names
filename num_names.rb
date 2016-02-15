@@ -12,7 +12,7 @@ class NumNames
     if num.match(/^-/)
       # Remove first character of the string
       num[0] = ""
-      @val = "negative "
+      @val = "negative"
     # Not a negative
     else
       @val = ""
@@ -61,7 +61,7 @@ class NumNames
   # Convert the number into
   def to_word
     int_words = " "
-    dec_words = "point "
+    dec_words = "point"
     pos = -1
     @int.length.times {
       case pos
@@ -164,5 +164,5 @@ class Array
   end
 end
 
-x = NumNames.new -6
+x = NumNames.new -6.32
 print x.to_word

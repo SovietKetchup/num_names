@@ -8,6 +8,17 @@ class NumNames
   def initialize num
     # Convert num into an array of strings e.g. 123 => ["1", "2", "3"] and put into groups of three
     num = num.to_s
+
+    # Negative numbers
+    if num.match(/^-/)
+      # Remove first character of the string
+      num[0] = ""
+      @val = "negative "
+    # Not a negative
+    else
+      @val = ""
+    end
+
     @int = num.split(".").first.scan(/./).reverse.in_groups_of(3).map{ |g| g.compact.reverse }.reverse
     # A decimal
     if num.include? "."
@@ -74,11 +85,11 @@ class NumNames
       @dec.each { |n|
         dec_words += " " + @lookup[n]
       }
-      val = int_words + dec_words
+      @val += int_words + dec_words
     else
-      val = int_words
+      @val = int_words
     end
-    val
+    @val
   end
 
   private
@@ -127,12 +138,6 @@ class NumNames
       end
     end
   end
-
-  # Compile the Decimals
-  def compile_d decimals
-
-
-  end
 end
 
 
@@ -160,5 +165,5 @@ class Array
   end
 end
 
-x = NumNames.new 100.256
+x = NumNames.new -6
 print x.to_word

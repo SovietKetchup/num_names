@@ -43,10 +43,11 @@ class NumNames
     pos = -1
     num_words = " "
     @num.length.times {
-      puts @num[pos]
-      puts @num.length
-      ## raise @num.inspect
-      num_words = compile(@num[pos]) + num_words
+      case pos
+        when -1 then num_words = compile(@num[pos]) + num_words
+        when -2 then num_words = compile(@num[pos]) + " thousand, " + num_words
+        when -3 then num_words = compile(@num[pos]) + " million, " + num_words
+      end
       pos -= 1
     }
     num_words
@@ -122,5 +123,5 @@ class Array
   end
 end
 
-x = NumNames.new
+x = NumNames.new 9564123
 print x.to_word

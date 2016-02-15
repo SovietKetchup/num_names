@@ -43,8 +43,10 @@ class NumNames
     pos = -1
     num_words = " "
     @num.length.times {
-      ######################
-        num_words += compile @num[pos]
+      puts @num[pos]
+      puts @num.length
+      ## raise @num.inspect
+      num_words = compile(@num[pos]) + num_words
       pos -= 1
     }
     num_words
@@ -61,7 +63,7 @@ class NumNames
     else
       u = units num_section; t = tens num_section; h = hundreds num_section
     end
-    h.to_s + t.to_s + u.to_s
+    h.to_s + t.to_s + " " + u.to_s
   end
 
   # Names for numbers in the units
@@ -78,18 +80,19 @@ class NumNames
 
   # Names for numbers in the tens
   def tens n
-    unless n[-2].to_i > 1 or n[-2] == nil
-      t = @lookup[ n[-2] ]
+    # Not a teen
+    unless n[-2] == "1" or n[-2] == nil
+      t = @lookup[ n[-2] + "0" ]
     end
   end
 
   # Names for numbers in the hundreds
-  def hundreds num
+  def hundreds n
     unless n[-3] == "0" or n[-3] == nil
       if n[-1] == "0" and n[-2] == "0"
-        h = @lookup[ n[-3] ] + " hundred and"
+        h = @lookup[ n[-3] ] + " hundred "
       else
-        h = @lookup[ n[-3] ] + " hundred"
+        h = @lookup[ n[-3] ] + " hundred and "
       end
     end
   end
@@ -119,5 +122,5 @@ class Array
   end
 end
 
-x = NumNames.new 1
-x.to_word
+x = NumNames.new
+print x.to_word

@@ -7,7 +7,17 @@ class NumNames
 
   def initialize num
     # Convert num into an array of strings e.g. 123 => ["1", "2", "3"] and put into groups of three
-    @num = num.to_s.scan(/./).reverse.in_groups_of(3).map{ |g| g.compact.reverse }.reverse
+    num = num.to_s
+    @int = num.split(".").first.scan(/./).reverse.in_groups_of(3).map{ |g| g.compact.reverse }.reverse
+    # A decimal
+    if num.include? "."
+      @dec = num.split(".").last.scan(/./)
+    # Not a decimal
+    else
+      @dec = nil
+    end
+
+    # Hash of pre-determined values for certain numbers
     @lookup =  { "1" => "one",
       "2" => "two",
       "3" => "three",
@@ -42,7 +52,7 @@ class NumNames
   def to_word
     pos = -1
     num_words = " "
-    @num.length.times {
+    @int.length.times {
       case pos
         when -1 then num_words = compile_i(@num[pos]) + num_words
         when -2 then num_words = compile_i(@num[pos]) + " thousand, " + num_words

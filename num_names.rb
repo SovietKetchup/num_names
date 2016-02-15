@@ -8,7 +8,6 @@ class NumNames
   def initialize num
     # Convert num into an array of strings e.g. 123 => ["1", "2", "3"] and put into groups of three
     num = num.to_s
-
     # Negative numbers
     if num.match(/^-/)
       # Remove first character of the string
@@ -87,7 +86,7 @@ class NumNames
       }
       @val += int_words + dec_words
     else
-      @val = int_words
+      @val += int_words
     end
     @val
   end

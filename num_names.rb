@@ -1,6 +1,6 @@
 # Convert Numbers into their word equivalents
 # SovietKetchup
-# v
+# v1.0.0
 
 class NumNames
   attr_reader :num
@@ -64,16 +64,18 @@ class NumNames
     else
       u = units num_section; t = tens num_section; h = hundreds num_section
     end
-    h.to_s + t.to_s + " " + u.to_s
+    h.to_s + t.to_s + u.to_s
   end
 
   # Names for numbers in the units
   def units n
     unless n[-1] == "0"
+      # Teen
       if n[-2] == "1"
-        u = @lookup[ n[-2] + n[-1] ]
+        u = " " + @lookup[n[-2] + n[-1] ]
+      # Not a teen
       else
-        u = @lookup[ n[-1] ]
+        u = " " + @lookup[ n[-1] ]
       end
     end
     u
@@ -83,7 +85,7 @@ class NumNames
   def tens n
     # Not a teen
     unless n[-2] == "1" or n[-2] == nil
-      t = @lookup[ n[-2] + "0" ]
+      t = " " + @lookup[ n[-2] + "0" ]
     end
   end
 
@@ -93,7 +95,7 @@ class NumNames
       if n[-1] == "0" and n[-2] == "0"
         h = @lookup[ n[-3] ] + " hundred "
       else
-        h = @lookup[ n[-3] ] + " hundred and "
+        h = @lookup[ n[-3] ] + " hundred and"
       end
     end
   end
@@ -123,5 +125,5 @@ class Array
   end
 end
 
-x = NumNames.new 9564123
+x = NumNames.new 113
 print x.to_word

@@ -3,6 +3,36 @@
 # v1.1.1
 
 module NumNames
+  # Hash of pre-determined values for certain numbers
+  LOOKUP =  { "1" => "one",
+    "2" => "two",
+    "3" => "three",
+    "4" => "four",
+    "5" => "five",
+    "6" => "six",
+    "7" => "seven",
+    "8" => "eight",
+    "9" => "nine",
+    "10" => "ten",
+    "11" => "eleven",
+    "12" => "twelve",
+    "13" => "thirteen",
+    "14" => "fourteen",
+    "15" => "fifteen",
+    "16" => "sixteen",
+    "17" => "seventeen",
+    "18" => "eighteen",
+    "19" => "nineteen",
+    "20" => "twenty",
+    "30" => "thirty",
+    "40" => "fourty",
+    "50" => "fifty",
+    "60" => "sixty",
+    "70" => "seventy",
+    "80" => "eighty",
+    "90" => "ninety"
+  }
+
   # Convert the number into
   def to_word
     # Convert num into an array of strings e.g. 123 => ["1", "2", "3"] and put into groups of three
@@ -14,7 +44,7 @@ module NumNames
       val = "negative"
     # Not a negative
     else
-      val = ""
+      val = "AAA"
     end
 
     int = num.split(".").first.scan(/./).reverse.in_groups_of(3).map{ |g| g.compact.reverse }.reverse
@@ -26,47 +56,18 @@ module NumNames
       dec = nil
     end
 
-    # Hash of pre-determined values for certain numbers
-    @lookup =  { "1" => "one",
-      "2" => "two",
-      "3" => "three",
-      "4" => "four",
-      "5" => "five",
-      "6" => "six",
-      "7" => "seven",
-      "8" => "eight",
-      "9" => "nine",
-      "10" => "ten",
-      "11" => "eleven",
-      "12" => "twelve",
-      "13" => "thirteen",
-      "14" => "fourteen",
-      "15" => "fifteen",
-      "16" => "sixteen",
-      "17" => "seventeen",
-      "18" => "eighteen",
-      "19" => "nineteen",
-      "20" => "twenty",
-      "30" => "thirty",
-      "40" => "fourty",
-      "50" => "fifty",
-      "60" => "sixty",
-      "70" => "seventy",
-      "80" => "eighty",
-      "90" => "ninety"
-    }
-
     int_words = " "
     dec_words = "point"
     pos = -1
     unless dec == nil
       dec.each { |n|
-        dec_words += " " + @lookup[n]
+        dec_words += " " + LOOKUP[n]
       }
       val += int_words + dec_words
     else
       val += int_words
     end
+    puts int_words
     val
   end
 
@@ -89,10 +90,10 @@ module NumNames
     unless n[-1] == "0"
       # Teen
       if n[-2] == "1"
-        u = " " + @lookup[n[-2] + n[-1] ]
+        u = " " + LOOKUP[n[-2] + n[-1] ]
       # Not a teen
       else
-        u = " " + @lookup[ n[-1] ]
+        u = " " + LOOKUP[ n[-1] ]
       end
     end
     u
@@ -102,7 +103,7 @@ module NumNames
   def tens n
     # Not a teen
     unless n[-2] == "1" or n[-2] == nil
-      t = @lookup[ n[-2] + "0" ]
+      t = LOOKUP[ n[-2] + "0" ]
     end
   end
 
@@ -110,9 +111,9 @@ module NumNames
   def hundreds n
     unless n[-3] == "0" or n[-3] == nil
       if n[-1] == "0" and n[-2] == "0"
-        h = @lookup[ n[-3] ] + " hundred "
+        h = LOOKUP[ n[-3] ] + " hundred "
       else
-        h = @lookup[ n[-3] ] + " hundred and"
+        h = LOOKUP[ n[-3] ] + " hundred and"
       end
     end
   end

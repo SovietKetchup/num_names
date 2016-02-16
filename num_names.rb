@@ -1,6 +1,6 @@
 # Convert Numbers into their word equivalents
 # SovietKetchup
-# v1.0.0
+# v1.2.0
 
 class NumNames
   attr_reader :num
@@ -164,5 +164,5 @@ class Array
   end
 end
 
-x = NumNames.new -6.32
+x = NumNames.new
 print x.to_word

@@ -59,15 +59,33 @@ module NumNames
     int_words = " "
     dec_words = "point"
     pos = -1
+    @int.length.times {
+      case pos
+        when -1 then int_words = compile_i(int[pos]) + int_words
+        when -2 then int_words = compile_i(int[pos]) + " thousand, " + int_words
+        when -3 then int_words = compile_i(int[pos]) + " million, " + int_words
+        when -4 then int_words = compile_i(int[pos]) + " billion, " + int_words
+        when -5 then int_words = compile_i(int[pos]) + " trillion, " + int_words
+        when -6 then int_words = compile_i(int[pos]) + " quadrillion, " + int_words
+        when -7 then int_words = compile_i(int[pos]) + " quintillion, " + int_words
+        when -8 then int_words = compile_i(int[pos]) + " sextillion, " + int_words
+        when -9 then int_words = compile_i(int[pos]) + " septillion, " + int_words
+        when -10 then int_words = compile_i(int[pos]) + " octillion, " + int_words
+        when -11 then int_words = compile_i(int[pos]) + " nonillion, " + int_words
+        when -12 then int_words = compile_i(int[pos]) + " decillion, " + int_words
+      end
+      pos -= 1
+    }
+    # Float value with dec
     unless dec == nil
       dec.each { |n|
         dec_words += " " + LOOKUP[n]
       }
       val += int_words + dec_words
+    # Not a float
     else
       val += int_words
     end
-    puts int_words
     val
   end
 

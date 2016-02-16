@@ -132,7 +132,7 @@ module NumNames
       if n[-1] == "0" and n[-2] == "0"
         h = LOOKUP[ n[-3] ] + " hundred "
       else
-        h = LOOKUP[ n[-3] ] + " hundred and"
+        h = LOOKUP[ n[-3] ] + " hundred and "
       end
     end
   end

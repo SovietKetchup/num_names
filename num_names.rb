@@ -35,6 +35,8 @@ module NumNames
 
   # Convert the number into
   def to_word
+    int_words = " "
+    dec_words = "point"
     # Convert num into an array of strings e.g. 123 => ["1", "2", "3"] and put into groups of three
     num = self.to_s.dup
     # Negative numbers
@@ -44,7 +46,7 @@ module NumNames
       val = "negative"
     # Not a negative
     else
-      val = "AAA"
+      val = ""
     end
 
     int = num.split(".").first.scan(/./).reverse.in_groups_of(3).map{ |g| g.compact.reverse }.reverse
@@ -56,10 +58,8 @@ module NumNames
       dec = nil
     end
 
-    int_words = " "
-    dec_words = "point"
     pos = -1
-    @int.length.times {
+    int.length.times {
       case pos
         when -1 then int_words = compile_i(int[pos]) + int_words
         when -2 then int_words = compile_i(int[pos]) + " thousand, " + int_words
@@ -76,6 +76,7 @@ module NumNames
       end
       pos -= 1
     }
+
     # Float value with dec
     unless dec == nil
       dec.each { |n|
@@ -84,6 +85,7 @@ module NumNames
       val += int_words + dec_words
     # Not a float
     else
+
       val += int_words
     end
     val
@@ -92,6 +94,7 @@ module NumNames
   private
   # Compile the Integer Sections of 3 -- units, tens, hundreds
   def compile_i num_section
+    raise num_section[-2].inspect
     # Only units
     if num_section.length == 1
       u = units num_section
@@ -108,7 +111,8 @@ module NumNames
     unless n[-1] == "0"
       # Teen
       if n[-2] == "1"
-        u = " " + LOOKUP[n[-2] + n[-1] ]
+        raise (LOOKUP[n[-2]]).inspect
+        u = " " + LOOKUP[n[-2].to_s + n[-1].to_s ]
       # Not a teen
       else
         u = " " + LOOKUP[ n[-1] ]

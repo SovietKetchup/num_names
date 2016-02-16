@@ -1,34 +1,33 @@
-# Convert Numbers into their word equivalents
+# Convert numbers to names
 # SovietKetchup
-# v1.2.0
+# v1.1.1
 
-class NumNames
-  attr_reader :num
-
-  def initialize num
+module NumNames
+  # Convert the number into
+  def to_word
     # Convert num into an array of strings e.g. 123 => ["1", "2", "3"] and put into groups of three
-    num = num.to_s
+    num = self.to_s.dup
     # Negative numbers
     if num.match(/^-/)
       # Remove first character of the string
       num[0] = ""
-      @val = "negative"
+      val = "negative"
     # Not a negative
     else
-      @val = ""
+      val = ""
     end
 
-    @int = num.split(".").first.scan(/./).reverse.in_groups_of(3).map{ |g| g.compact.reverse }.reverse
+    int = num.split(".").first.scan(/./).reverse.in_groups_of(3).map{ |g| g.compact.reverse }.reverse
     # A decimal
     if num.include? "."
       @dec = num.split(".").last.scan(/./)
     # Not a decimal
     else
-      @dec = nil
+      dec = nil
     end
 
     # Hash of pre-determined values for certain numbers
-    @lookup =  { "1" => "one",
+    @@lookup =  { "1" => "one",
       "2" => "two",
       "3" => "three",
       "4" => "four",
@@ -56,39 +55,19 @@ class NumNames
       "80" => "eighty",
       "90" => "ninety"
     }
-  end
 
-  # Convert the number into
-  def to_word
     int_words = " "
     dec_words = "point"
     pos = -1
-    @int.length.times {
-      case pos
-        when -1 then int_words = compile_i(@int[pos]) + int_words
-        when -2 then int_words = compile_i(@int[pos]) + " thousand, " + int_words
-        when -3 then int_words = compile_i(@int[pos]) + " million, " + int_words
-        when -4 then int_words = compile_i(@int[pos]) + " billion, " + int_words
-        when -5 then int_words = compile_i(@int[pos]) + " trillion, " + int_words
-        when -6 then int_words = compile_i(@int[pos]) + " quadrillion, " + int_words
-        when -7 then int_words = compile_i(@int[pos]) + " quintillion, " + int_words
-        when -8 then int_words = compile_i(@int[pos]) + " sextillion, " + int_words
-        when -9 then int_words = compile_i(@int[pos]) + " septillion, " + int_words
-        when -10 then int_words = compile_i(@int[pos]) + " octillion, " + int_words
-        when -11 then int_words = compile_i(@int[pos]) + " nonillion, " + int_words
-        when -12 then int_words = compile_i(@int[pos]) + " decillion, " + int_words
-      end
-      pos -= 1
-    }
-    unless @dec == nil
-      @dec.each { |n|
-        dec_words += " " + @lookup[n]
+    unless dec == nil
+      dec.each { |n|
+        dec_words += " " + @@lookup[n]
       }
-      @val += int_words + dec_words
+      val += int_words + dec_words
     else
-      @val += int_words
+      val += int_words
     end
-    @val
+    val
   end
 
   private
@@ -110,10 +89,10 @@ class NumNames
     unless n[-1] == "0"
       # Teen
       if n[-2] == "1"
-        u = " " + @lookup[n[-2] + n[-1] ]
+        u = " " + @@lookup[n[-2] + n[-1] ]
       # Not a teen
       else
-        u = " " + @lookup[ n[-1] ]
+        u = " " + @@lookup[ n[-1] ]
       end
     end
     u
@@ -123,7 +102,7 @@ class NumNames
   def tens n
     # Not a teen
     unless n[-2] == "1" or n[-2] == nil
-      t = @lookup[ n[-2] + "0" ]
+      t = @@lookup[ n[-2] + "0" ]
     end
   end
 
@@ -131,14 +110,17 @@ class NumNames
   def hundreds n
     unless n[-3] == "0" or n[-3] == nil
       if n[-1] == "0" and n[-2] == "0"
-        h = @lookup[ n[-3] ] + " hundred "
+        h = @@lookup[ n[-3] ] + " hundred "
       else
-        h = @lookup[ n[-3] ] + " hundred and"
+        h = @@lookup[ n[-3] ] + " hundred and"
       end
     end
   end
 end
 
+# Extending Integer and Float to have .to_word
+class Integer; include NumNames; end
+class Float; include NumNames; end
 
 # http://api.rubyonrails.org/classes/Array.html#method-i-in_groups_of
 class Array
@@ -164,5 +146,4 @@ class Array
   end
 end
 
-x = NumNames.new
-print x.to_word
+puts 10.to_word

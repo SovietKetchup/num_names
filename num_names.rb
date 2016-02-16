@@ -20,14 +20,14 @@ module NumNames
     int = num.split(".").first.scan(/./).reverse.in_groups_of(3).map{ |g| g.compact.reverse }.reverse
     # A decimal
     if num.include? "."
-      @dec = num.split(".").last.scan(/./)
+      dec = num.split(".").last.scan(/./)
     # Not a decimal
     else
       dec = nil
     end
 
     # Hash of pre-determined values for certain numbers
-    @@lookup =  { "1" => "one",
+    @lookup =  { "1" => "one",
       "2" => "two",
       "3" => "three",
       "4" => "four",
@@ -61,7 +61,7 @@ module NumNames
     pos = -1
     unless dec == nil
       dec.each { |n|
-        dec_words += " " + @@lookup[n]
+        dec_words += " " + @lookup[n]
       }
       val += int_words + dec_words
     else
@@ -89,10 +89,10 @@ module NumNames
     unless n[-1] == "0"
       # Teen
       if n[-2] == "1"
-        u = " " + @@lookup[n[-2] + n[-1] ]
+        u = " " + @lookup[n[-2] + n[-1] ]
       # Not a teen
       else
-        u = " " + @@lookup[ n[-1] ]
+        u = " " + @lookup[ n[-1] ]
       end
     end
     u
@@ -102,7 +102,7 @@ module NumNames
   def tens n
     # Not a teen
     unless n[-2] == "1" or n[-2] == nil
-      t = @@lookup[ n[-2] + "0" ]
+      t = @lookup[ n[-2] + "0" ]
     end
   end
 
@@ -110,9 +110,9 @@ module NumNames
   def hundreds n
     unless n[-3] == "0" or n[-3] == nil
       if n[-1] == "0" and n[-2] == "0"
-        h = @@lookup[ n[-3] ] + " hundred "
+        h = @lookup[ n[-3] ] + " hundred "
       else
-        h = @@lookup[ n[-3] ] + " hundred and"
+        h = @lookup[ n[-3] ] + " hundred and"
       end
     end
   end

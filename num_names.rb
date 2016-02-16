@@ -43,7 +43,7 @@ module NumNames
     if num.match(/^-/)
       # Remove first character of the string
       num[0] = ""
-      val = "negative"
+      val = "negative "
     # Not a negative
     else
       val = ""
@@ -94,7 +94,7 @@ module NumNames
   private
   # Compile the Integer Sections of 3 -- units, tens, hundreds
   def compile_i num_section
-    raise num_section[-2].inspect
+    ## raise LOOKUP[num_section[-2]].inspect
     # Only units
     if num_section.length == 1
       u = units num_section
@@ -108,15 +108,12 @@ module NumNames
 
   # Names for numbers in the units
   def units n
-    unless n[-1] == "0"
-      # Teen
-      if n[-2] == "1"
-        raise (LOOKUP[n[-2]]).inspect
-        u = " " + LOOKUP[n[-2].to_s + n[-1].to_s ]
-      # Not a teen
-      else
-        u = " " + LOOKUP[ n[-1] ]
-      end
+    # Teen
+    if n[-2] == "1"
+      u = " " + LOOKUP[ n[-2] + n[-1] ]
+    # Not a teen
+    else
+      u = " " + LOOKUP[ n[-1] ]
     end
     u
   end
@@ -169,4 +166,4 @@ class Array
   end
 end
 
-puts 10.to_word
+puts -123.456.to_word

@@ -139,8 +139,7 @@ module NumNames
 end
 
 # Extending Integer and Float to have .to_word
-class Integer; include NumNames; end
-class Float; include NumNames; end
+class Numeric; include NumNames; end
 
 # http://api.rubyonrails.org/classes/Array.html#method-i-in_groups_of
 class Array
